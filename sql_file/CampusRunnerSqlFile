@@ -1,0 +1,32 @@
+# 实现删除可能会重名的数据库,避免干扰
+DROP DATABASE IF EXISTS campus_runner;
+# 创建本项目的数据库
+CREATE DATABASE campus_runner CHARACTER SET utf8mb4;
+# 进入该数据库
+USE campus_runner;
+# 创建用户表
+CREATE TABLE user (
+                      id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+                      username VARCHAR(20) NOT NULL,
+                      password VARCHAR(32) NOT NULL,
+                      email VARCHAR(50) NOT NULL,
+                      phone VARCHAR(20) NOT NULL,
+                      avatar VARCHAR(255) NOT NULL,
+                      create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                      update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                      UNIQUE KEY idx_username(username),
+                      UNIQUE KEY idx_email(email),
+                      UNIQUE KEY idx_phone(phone)
+);
+INSERT INTO `user` (username, password, email, phone, avatar)
+VALUES
+    ('alice', 'password123', 'alice@example.com', '1234567890', 'avatar1.jpg'),
+    ('bob', 'securepass', 'bob@example.com', '9876543210', 'avatar2.jpg'),
+    ('charlie', 'strongpassword', 'charlie@example.com', '4567890123', 'avatar3.jpg'),
+    ('david', 'davidpass', 'david@example.com', '7890123456', 'avatar4.jpg'),
+    ('emma', 'emmapass', 'emma@example.com', '0123456789', 'avatar5.jpg'),
+    ('frank', 'frankpass', 'frank@example.com', '6543210987', 'avatar6.jpg'),
+    ('grace', 'gracepass', 'grace@example.com', '2109876543', 'avatar7.jpg'),
+    ('henry', 'henrypass', 'henry@example.com', '5432109876', 'avatar8.jpg'),
+    ('ivy', 'ivypass', 'ivy@example.com', '0987654321', 'avatar9.jpg'),
+    ('jack', 'jackpass', 'jack@example.com', '3210987654', 'avatar10.jpg');
