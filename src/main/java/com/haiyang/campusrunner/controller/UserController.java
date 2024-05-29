@@ -24,7 +24,7 @@ public class UserController {
         if (u == null){
            return Result.error("用户名不存在");
         }
-        BCryptPasswordEncosdder encoder = new BCryptPasswordEncoder();
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         if (encoder.matches(map.get("password"),u.getPassword())){
             return Result.success(JWTUtils.generateToken(u.getId(),u.getUsername()));
         }else {
