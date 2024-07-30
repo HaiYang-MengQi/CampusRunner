@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>钩子函数</title>
+    <script src="./js/vue.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="root" style="padding: 300px">
+    <h1>计数器</h1>
+    <button @click="count--">-</button>
+    {{count}}
+    <button @click="count++">+</button>
+</div>
+
+
+<script>
+    const app = new Vue({
+        el: '#root',
+        data: {
+            count : 0
+        },
+        beforeCreate(){
+            console.log('beforeCreate响应式数据准备好之前',this.count)
+        },
+        created(){
+            console.log('created响应式数据准备好之后',this.count)
+            // 可以开始发送初始化渲染请求
+        },
+        beforeMount(){
+            console.log('beforeMount模板渲染之前',document.querySelector('h1').innerHTML)
+
+        },
+        mounted(){
+            console.log('mounted模板渲染之后',document.querySelector('h1').innerHTML)
+        },
+        beforeUpdate(){
+            console.log('beforeUpdate')
+        },
+        updated(){
+            console.log('updated')
+        }
+    })
+</script>
+</body>
+</html>

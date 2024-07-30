@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>礼物</title>
+    <script src="./js/vue.js" type="text/javascript"></script>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root">
+        <div>
+            <table>
+                <caption>礼物清单</caption>
+                <thead>
+                <tr>
+                    <th>名字</th>
+                    <th>数量</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="(item,index) in list" :key="item.id">
+                    <td>{{item.name}}</td>
+                    <td>{{item.num}}</td>
+                </tr>
+                </tbody>
+            </table>
+            <div>总数{{totalCount}}</div>
+        </div>
+    </div>
+<script>
+    let arr = [1,2,3];
+
+    console.log(arr.push(4))
+</script>
+<script>
+    const app = new Vue({
+        el: '#root',
+        data: {
+            list: [
+                {id:1,name:'篮球',num:4},
+                {id:2,name:'足球',num:4},
+                {id:3,name:'排球',num:4},
+            ]
+            },
+        computed: {
+            totalCount(){
+                return this.list.reduce((pre,cur) => pre+cur.num,0)
+            }
+        },
+    });
+</script>
+</body>
+</html>

@@ -3,8 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <title>登录页面</title>
+    <style>
+        .box{
+            background-color: #b31f1c;
+        }
+        .word{
+            text-align: center;
+            color: aqua;
+        }
+        .active{
+            background-color: #b31f1c;
+        }
+    </style>
+    <script src="./js/vue.js" type="text/javascript"></script>
 </head>
 <body>
+<div id="app">
+    <h5>插值表达式：</h5>
+    {{msg.toLowerCase()}}
+    <hr>
+    <h5>v-if和v-show的使用</h5>
+    <div v-show="1===1">底层控制display属性</div>
+    <div v-if="1 ===1" >性别:    男</div>
+    <div v-else>性别:    女</div>
+    <hr/>
+    <div v-if="score >= 90">成绩评定A：奖励电脑一台</div>
+    <div v-else-if ="score >= 70" >成绩评定B：奖励手机一台</div>
+    <div v-else-if="score >= 60">成绩评定C：奖励手表一部</div>
+    <div v-else>成绩评定D：奖励一个月不许玩手机</div>
+    <h4>v-on的使用</h4>
+    <button @click="count++">+</button>
+    <span>{{count}}</span>
+    <button @click="count--">-</button>
+    <hr>
+    <h4>函数传参</h4>
+    <div style="border: aqua solid 2px;height: 190px;width: 190px">
+        自动售货机<br>
+        <button @click="buy(6)">可乐6元</button>
+        <button @click="buy(10)">咖啡10元</button>
+        <br>
+        银行卡余额：  {{value}}
+    </div>
+    <hr>
+    <h4>v-for遍历</h4>
+    <ul>
+        <li v-for="(item,index) in list" :key="item.id">
+            <span>{{item.id}}</span>
+            <span>{{item.name}}</span>
+            <span>{{item.author}}</span>
+            <button @click="del(item.id)">删除</button>
+        </li>
+    </ul>
+    <hr>
+    <h4>v-bind对于样式的增强</h4>
+    <div :class="{box:true,word:true}">你好</div>
+    <div :class="['box','word']">Vue</div>
+    <hr>
+    <h4>tab导航高亮</h4>
+    <ul>
+        <li v-for="(item,index) in word" :key="item.id">
+            <a :class="{active:true}" href="#">{{item.name}}</a>
+        </li>
+    </ul>
+</div>
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            msg: 'Hello Vue!',
+            flag : false,
+            score : 90,
+            count : 0,
+            value : 1000,
+            word  :[
+                {id:1,name:'京东秒杀'},
+                {id:2,name:'每日特价'},
+                {id:3,name:'品类秒杀'}
+            ],
+            list: [{id:1,name:'红楼梦',author:'曹雪芹'},{id:2,name:'西游记',author:'吴承恩'},{id:3,name:'水浒传',author:'施耐庵'}]
+        },
+        computed: {
+            //计算属性
+            //当score的值发生改变时，会自动调用这个函数
+            //当score的值发生改变时，会自动
 
+        },
+        methods: {
+            buy(price) {
+                this.value -= price;
+            },
+            del(id) {
+               this.list = this.list.filter(item => item.id !== id)
+            }
+
+        }
+    });
+</script>
 </body>
 </html>

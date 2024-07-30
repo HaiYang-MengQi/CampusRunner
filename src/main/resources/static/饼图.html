@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>饼图</title>
+    <script src="js/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js" integrity="sha256-6EJwvQzVvfYP78JtAMKjkcsugfTSanqe4WGFpUdzo88=" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="app">
+    <input type="text" v-model:value="name"><br>
+    <input type="text" v-model:value="price"><br>
+    <button @click="add">添加</button><br>
+    <table>
+        <thead>
+        <th v-show="list.length > 0" v-for="(item,index) in order" :key="item.id">
+            {{item.name}}
+        </th>
+        </thead>
+        <tr v-for="(item,index) in list" :key="item.id">
+            <td>{{item.id}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.price}}</td>
+            <td><a @click.prevent="del(item.id)">删除</a></td>
+        </tr>
+    </table>
+    <div id="echarts-zone" style="width: 600px;height: 600px;padding: 20px"></div>
+</div>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+           name :'',
+           price :'',
+           order :[
+               {name: '编号'},
+               {name: '名称'},
+               {name: '价格'},
+               {name: '操作'}
+           ],
+           list :[],
+        },
+        computed: {
+        },
+        methods: {
+            add(){
+                this.list.push({
+                    id: this.list.length+1,
+                    value: parseFloat(this.price).toFixed(2),
+                    name: this.name
+                })
+                this.name = '';
+                this.price = '';
+                if(this.list.length > 0){
+                    myChart.setOption({
+                        series: [
+                            {
+                                data: this.list.map(item => ({value : item.value, name : item.name}))
+                            }
+                        ]
+                    })
+                }
+            },
+            del(id){
+                if(this.list.length > 0){
+                    myChart.setOption({
+                        series: [
+                            {
+                                data: this.list.filter(item => item.id !== id )
+                            }
+                        ]
+                    })
+                }
+                this.list = this.list.filter(item => item.id !== id)
+
+            }
+        },
+        mounted(){
+             myChart = echarts.init(document.getElementById('echarts-zone'));
+            myChart.setOption({
+                //标题
+                title: {
+                    text: '账单构成',
+                    left: 'center'
+                },
+                //提示框
+                tooltip: {
+                    trigger: 'item'
+                },
+                //图例
+                legend: {
+                    orient: 'vertical',
+                    left: 'left'
+                },
+                series: [
+                    {
+                        name: '消费账单',
+                        type: 'pie',
+                        radius: '50%',//半径
+                        data: [],
+                        emphasis: {
+                            itemStyle: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }
+                ]
+            });
+        }
+    });
+</script>
+</body>
+</html>

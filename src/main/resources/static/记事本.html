@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>记事本</title>
+    <script src="./js/vue.js" type="text/javascript"></script>
+</head>
+<body>
+    <div id="root">
+        <input type="text" placeholder="请输入内容" v-model:value="todoName"/><button @click="add">添加</button>
+        <ul>
+            <li v-for="(item,index) in list" :key="item.id">
+                <div>
+                    {{index+1}}.<label>{{item.name}}</label>
+                </div>
+                <button @click="del(item.id)">删除</button>
+            </li>
+        </ul>
+        <span v-show="list.length > 0">合计{{list.length}}条</span>
+        <span v-show="list.length > 0" @click="list = []">清空任务</span>
+    </div>
+<script>
+    const app = new Vue({
+        el: '#root',
+        data: {
+            todoName: '',
+            list: [{id:1,name:'跑步1公里'},
+                {id:2,name:'游泳1小时'},
+                {id:3,name:'跳绳1分钟'},
+                {id:4,name:'打球1小时'},
+            ]
+        },
+        methods: {
+            add(){
+                if(this.todoName.trim() === ''){
+                    alert('请输入内容')
+                    return
+                }
+                this.list.unshift({id:this.list.length+1,name:this.todoName})
+                this.todoName = ''
+            },
+            del(id) {
+                this.list = this.list.filter(item => item.id !== id)
+            }
+        }
+    })
+</script>
+</body>
+</html>
